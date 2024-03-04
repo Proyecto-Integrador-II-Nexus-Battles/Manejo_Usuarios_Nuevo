@@ -1,1 +1,11 @@
-//Este es un archivo de ejemplo de una ruta de Node.js. Reemplazar por otro archivo con rutas reales.
+import { Router } from 'express'
+
+import { userController } from "../controllers/controller.js"
+
+// En este archivo unicamente tendremos las rutas con los endPoints a las diversas peticiones que tienen las otras APIs o views
+
+export const userRouter = Router()
+
+userRouter.get('/admin', userController.getUsername);
+userRouter.get('/buscar_usuario', userController.buscarUsername);
+userRouter.get('/:username', userController.getUserInfoController);
