@@ -37,8 +37,4 @@ export class userModel {
 
 
 
-    // getByID
-    // CREATE
-    // UPDATE
-    // DELETE
 }
