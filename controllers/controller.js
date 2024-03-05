@@ -29,11 +29,11 @@ export class userController {
     // Se obtienen el correo electrónico y la contraseña del cuerpo de la solicitud
     let email = req.body.email;
     let password = req.body.password;
-
+    console.log("email", email);
     // Se obtienen el correo electrónico y la contraseña almacenados en la base de datos
     let email_db = await userModel.getUserEmail(email);
     let password_db = await userModel.getPassword(email);
-
+    console.log(password_db)
     // Se verifica si el correo electrónico y la contraseña coinciden con los de la base de datos
     if (email === email_db && bcrypt.compareSync(password, password_db)) {
       //Cambios Santiago (Borrar este comentario)
