@@ -51,18 +51,7 @@ export class userController {
     }
   }
 
-  // Función para cerrar sesión de usuario
-  static async LogOut(req, res) {
-    // Se destruye la sesión del usuario
-    req.session.destroy(function (err) {
-      if (err) {
-        // Si hay un error al destruir la sesión, se imprime en la consola
-        console.log(err);
-        // Se envía una respuesta al cliente indicando que ha salido de la sesión
-        res.json("Salió de la sesión");
-      }
-    });
-  }
+
 
   static async register(req, res) {
     try {
