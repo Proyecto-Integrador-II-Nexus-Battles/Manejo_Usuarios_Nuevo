@@ -2,7 +2,7 @@ import { userModel } from "../models/models.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config.js";
-
+import { pool } from "../models/db.js";
 // En esta clase se encarga de controlar los datos y consultas (get-post) y devolverlas en formato JSON
 // Hacia la vista que las requiera
 export class userController {
@@ -36,7 +36,7 @@ export class userController {
     console.log(password_db)
     // Se verifica si el correo electrónico y la contraseña coinciden con los de la base de datos
     if (email === email_db && bcrypt.compareSync(password, password_db)) {
-      //Cambios Santiago (Borrar este comentario)
+
       if (JWT_SECRET === "") {
         const token = jwt.sign({ email }, JWT_SECRET, {
           expiresIn: "1h",
@@ -59,6 +59,7 @@ export class userController {
       const {
         nombre,
         apellido,
+        username,
         email,
         metodospago,
         numero_tarjeta,
@@ -71,10 +72,11 @@ export class userController {
 
       // Inserta los datos del usuario en la base de datos utilizando pool.query
       await pool.query(
-        "INSERT INTO sofia.users(nombre, apellido, email, password, metodospago, numero_tarjeta, cvv, fecha_exp, pregunta_1, pregunta_2, pregunta_3) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO sofia.users(nombre, apellido, username, email, password, metodospago, numero_tarjeta, cvv, fecha_exp, pregunta_1, pregunta_2, pregunta_3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
         [
           nombre,
           apellido,
+          username,
           email,
           hash,
           metodospago,

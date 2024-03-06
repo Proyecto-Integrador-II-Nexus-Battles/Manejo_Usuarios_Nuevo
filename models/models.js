@@ -11,6 +11,7 @@ export class userModel {
         return resultados;
     }
 
+
     static async getUserInfo(username) {
         const userResult = await pool.query("SELECT nombre, apellido, usuario, email, metodospago FROM users WHERE nombre = ?", [username]);
         return userResult[0];
