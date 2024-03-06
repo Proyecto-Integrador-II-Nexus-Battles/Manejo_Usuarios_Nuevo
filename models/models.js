@@ -2,12 +2,12 @@ import { pool } from "./db.js";
 // En esta clase se encargaran de hacer la logica de negocio, también realizar conexión a la base de datos desde este *archivo* <-- !IMPORTANT
 export class userModel {
     static async getUsers() {
-        const usernamesResult = await pool.query("SELECT nombre FROM users");
+        const usernamesResult = await pool.query("SELECT usuario FROM users");
         return usernamesResult;
     }
 
     static async searchUsers(query) {
-        const resultados = await pool.query("SELECT nombre FROM users WHERE nombre LIKE ?", [`${query}%`]);
+        const resultados = await pool.query("SELECT usuario FROM users WHERE usuario LIKE ?", [`${query}%`]);
         return resultados;
     }
 
