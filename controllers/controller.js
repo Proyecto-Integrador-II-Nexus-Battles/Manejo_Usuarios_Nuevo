@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config.js";
 import { pool } from "../models/db.js";
+
+
 // En esta clase se encarga de controlar los datos y consultas (get-post) y devolverlas en formato JSON
 // Hacia la vista que las requiera
 export class userController {
@@ -55,6 +57,8 @@ export class userController {
 
   static async register(req, res) {
     try {
+
+      console.log("si entra")
       const hash = await bcrypt.hash(req.body.password, 12);
       const {
         nombre,

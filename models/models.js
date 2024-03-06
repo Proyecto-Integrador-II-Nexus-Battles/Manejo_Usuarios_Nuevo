@@ -13,7 +13,7 @@ export class userModel {
 
 
     static async getUserInfo(username) {
-        const userResult = await pool.query("SELECT nombre, apellido, usuario, email, metodospago FROM users WHERE nombre = ?", [username]);
+        const userResult = await pool.query("SELECT nombre, apellido, username, email, metodospago FROM users WHERE nombre = ?", [username]);
         return userResult[0];
     }
 

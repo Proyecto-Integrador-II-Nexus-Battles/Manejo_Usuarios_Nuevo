@@ -3,12 +3,29 @@ import { userRouter } from "./routes/routes.js"; //--> !!!IMPORTANT!!! Siempre q
 import { PORT } from "./config.js";
 import bodyParser from "body-parser";
 
+
 const app = express(); // --> Iniciamos express
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.disable("x-powered-by"); // --> Deshabilitar el header x-powered-by
 
+
+
+
 app.use("/usuario", userRouter); // --> Usar la variable de entorno PORT, si no usar el port 3000
+
+
+
+app.use(function (req, res, next) {
+
+  res.append('Access-Control-Allow-Origin', ['http://localhost:5000/register']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  next()
+});
+
+
+
 
 app.use((req, res) => {
   res.status(404).json({
