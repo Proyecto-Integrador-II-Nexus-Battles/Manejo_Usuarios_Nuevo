@@ -27,29 +27,71 @@ export class userController {
   }
 
   // Función para iniciar sesión de usuario
-  static async LogIn(req, res) {
-    // Se obtienen el correo electrónico y la contraseña del cuerpo de la solicitud
-    let email = req.body.email;
-    let password = req.body.password;
-    console.log("email", email);
-    // Se obtienen el correo electrónico y la contraseña almacenados en la base de datos
-    let email_db = await userModel.getUserEmail(email);
-    let password_db = await userModel.getPassword(email);
-    console.log(password_db)
-    // Se verifica si el correo electrónico y la contraseña coinciden con los de la base de datos
-    if (email === email_db && bcrypt.compareSync(password, password_db)) {
-
-      if (JWT_SECRET === "") {
-        const token = jwt.sign({ email }, JWT_SECRET, {
-          expiresIn: "1h",
-        });
-        res.json({ token });
-      } else {
-        res.json("Not a JWT_SECRET provided in ENV");
+  /*   static async LogIn(req, res) {
+      // Se obtienen el correo electrónico y la contraseña del cuerpo de la solicitud
+      let email = req.body.email;
+      let password = req.body.password;
+      console.log("email", email);
+      // Se obtienen el correo electrónico y la contraseña almacenados en la base de datos
+      let email_db = await userModel.getUserEmail(email);
+      let password_db = await userModel.getPassword(email);
+  
+      console.log(password_db)
+      // Se verifica si el correo electrónico y la contraseña coinciden con los de la base de datos
+      if (email === email_db && bcrypt.compareSync(password, password_db)) {
+  
+        console.log("entra con extio");
+      
+        
+        console.log("si entra")
+        if (JWT_SECRET === "") {
+          const token = jwt.sign({ email }, JWT_SECRET, {
+            expiresIn: "1h",
+          });
+  
+          res.json({ token });
+  
+        }} else {
+          res.json("Not a JWT_SECRET provided in ENV");
+        }
+  
+        else {
+        // Si las credenciales no coinciden, se devuelve un mensaje de error
+        res.json("not authenticated");
       }
-    } else {
-      // Si las credenciales no coinciden, se devuelve un mensaje de error
-      res.json("not authenticated");
+    } */
+
+  static async LogIn(req, res) {
+    try {
+      // Se obtienen el correo electrónico y la contraseña del cuerpo de la solicitud
+      const { email, password } = req.body;
+
+      // Se obtienen el correo electrónico y la contraseña almacenados en la base de datos
+      const email_db = await userModel.getUserEmail(email);
+      const password_db = await userModel.getPassword(email);
+
+      // Se verifica si el correo electrónico y la contraseña coinciden con los de la base de datos
+      if (email === email_db && bcrypt.compareSync(password, password_db)) {
+        // Verificar si existe una clave secreta para JWT
+        if (JWT_SECRET !== "") {
+          // Generar token JWT
+          const token = jwt.sign({ email }, JWT_SECRET, {
+            expiresIn: "1h",
+          });
+          // Devolver el token en la respuesta
+          res.json({ token });
+        } else {
+          // Si no hay una clave secreta para JWT, enviar un mensaje de error
+          res.status(500).json({ error: "No JWT_SECRET provided in ENV" });
+        }
+      } else {
+        // Si las credenciales no coinciden, se devuelve un mensaje de error
+        res.status(401).json({ error: "Invalid credentials" });
+      }
+    } catch (error) {
+      // Manejar errores de manera adecuada
+      console.error("Error during login:", error);
+      res.status(500).json({ error: "An error occurred during login" });
     }
   }
 

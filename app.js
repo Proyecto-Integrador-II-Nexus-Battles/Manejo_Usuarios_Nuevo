@@ -32,7 +32,7 @@ app.use((req, res) => {
 app.use(cors())
 app.use('/usuario', userRouter)
 
-const PORT = process.env.PORT || 3000 // --> Usar la variable de entorno PORT, si no usar el port 3000
+//const PORT = process.env.PORT// --> Usar la variable de entorno PORT, si no usar el port 3000
 
 app.listen(PORT, () => {
   console.log(`Server listen on port http://localhost:${PORT}`);
