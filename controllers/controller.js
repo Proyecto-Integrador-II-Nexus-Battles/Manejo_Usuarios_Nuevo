@@ -71,7 +71,10 @@ export class userController {
       const password_db = await userModel.getPassword(email);
 
       // Se verifica si el correo electrónico y la contraseña coinciden con los de la base de datos
-      if (email === email_db && bcrypt.compareSync(password, password_db)) {
+      if (email === email_db.email && bcrypt.compareSync(password, password_db.password)) {
+        console.log("===================================================")
+        console.log(`El usuario con correo ${email} inició sesión correctamente`)
+
         // Verificar si existe una clave secreta para JWT
         if (JWT_SECRET !== "") {
           // Generar token JWT
@@ -80,6 +83,7 @@ export class userController {
           });
           // Devolver el token en la respuesta
           res.json({ token });
+          console.log(`Token de inicio de sesión: ${token}`)
         } else {
           // Si no hay una clave secreta para JWT, enviar un mensaje de error
           res.status(500).json({ error: "No JWT_SECRET provided in ENV" });
