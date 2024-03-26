@@ -7,3 +7,5 @@ const __dirname = path.dirname(__filename);
 config({ path: path.resolve(__dirname, ".env") });
 
 export const APP_PORT = process.env.APP_PORT;
+export const JWT_SECRET = process.env.JWT_SECRET || "";
+
