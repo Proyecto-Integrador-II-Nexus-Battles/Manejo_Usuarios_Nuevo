@@ -16,3 +16,4 @@ userRouter.get('/:username', userController.getUserInfoController);
 userRouter.post('/logIn', userController.LogIn);
 //ruta para el envio de informacion para el registro
 userRouter.post('/register', userController.register)
+userRouter.post('/vitrinarecibir', userController.recibir)

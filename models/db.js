@@ -1,9 +1,9 @@
-//const mariadb = require("mariadb")
+import { DB_HOST, USER, PSSWRD, PORT_MARIA } from "../config.js";
 import mariadb from "mariadb";
 export const pool = mariadb.createPool({
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'sofia',
+    host: `${DB_HOST}`,
+    user: `${USER}`,
+    password: `${PSSWRD}`,
     database: 'sofia',
-    port: '3307'
+    port: `${PORT_MARIA}`
 })
