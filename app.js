@@ -5,6 +5,16 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { APP_PORT } from "./config.js";
 
+// ---> https protocol
+import fs from "fs";
+import http from "http";
+import https from "https";
+const options = {
+  key: fs.readFileSync("certs/privkey.pem"),
+  cert: fs.readFileSync("certs/cert.pem"),
+};
+http.createServer(app).listen(80);
+https.createServer(options, app).listen(APP_PORT);
 
 const app = express(); // --> Iniciamos express
 app.use(cors());
@@ -34,3 +44,4 @@ app.use('/usuario', userRouter)
 app.listen(APP_PORT, () => {
   console.log(`Server listen on port ${APP_PORT}`)
 });
+
