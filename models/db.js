@@ -7,3 +7,4 @@ export const pool = mariadb.createPool({
     database: 'sofia',
     port: `${PORT_MARIA}`
 })
+
