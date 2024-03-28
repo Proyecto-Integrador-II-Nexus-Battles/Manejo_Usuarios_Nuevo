@@ -2,8 +2,9 @@ import express, { json } from "express";
 import { userRouter } from "./routes/routes.js"; //--> !!!IMPORTANT!!! Siempre que importen un archivo extensión .js .Loquesea, siempre ponerlo en el path, ej -> './routes/template.js' --> el .js es la extensión
 import { PORT, HOST } from "./config.js";
 import bodyParser from "body-parser";
-
 import cors from "cors";
+
+
 
 const app = express(); // --> Iniciamos express
 app.use(cors());
@@ -20,8 +21,6 @@ app.use(function (req, res, next) {
   res.append('Access-Control-Allow-Headers', 'Content-Type');
   next()
 });
-
-
 
 
 app.use((req, res) => {

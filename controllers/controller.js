@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config.js";
 import { pool } from "../models/db.js";
-
+import multer from 'multer';
+const upload = multer({ dest: 'uploads/' });
 
 // En esta clase se encarga de controlar los datos y consultas (get-post) y devolverlas en formato JSON
 // Hacia la vista que las requiera
@@ -73,12 +74,15 @@ export class userController {
     try {
 
       console.log("si entra")
+      console.log(req)
       const hash = await bcrypt.hash(req.body.password, 12);
+
       const {
         nombre,
         apellido,
         username,
         email,
+        avataroculto,
         metodospago,
         numero_tarjeta,
         cvv,
@@ -88,9 +92,11 @@ export class userController {
         pregunta_3,
       } = req.body;
 
+
+
       // Inserta los datos del usuario en la base de datos utilizando pool.query
       await pool.query(
-        "INSERT INTO sofia.users(nombre, apellido, username, email, password, metodospago, numero_tarjeta, cvv, fecha_exp, pregunta_1, pregunta_2, pregunta_3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO sofia.users(nombre, apellido, username, email, password, metodospago, numero_tarjeta, cvv, fecha_exp, pregunta_1, pregunta_2, pregunta_3,avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
           nombre,
           apellido,
@@ -104,6 +110,8 @@ export class userController {
           pregunta_1,
           pregunta_2,
           pregunta_3,
+          avataroculto,
+
         ]
       );
 
@@ -126,6 +134,9 @@ export class userController {
     console.log('Payload:', payload);
     res.json(payload)
   }
+
+
+
 
 
 }
