@@ -27,8 +27,6 @@ export class userModel {
     static async getPassword(email) {
 
         let password_db = await pool.query("SELECT password FROM users WHERE email=?", [email]);
-        console.log(password_db)
-        console.log(password_db[0])
         return password_db[0];
     }
 

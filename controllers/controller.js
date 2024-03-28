@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config.js";
 import { pool } from "../models/db.js";
-
+import multer from 'multer';
+const upload = multer({ dest: 'uploads/' });
 
 // En esta clase se encarga de controlar los datos y consultas (get-post) y devolverlas en formato JSON
 // Hacia la vista que las requiera
@@ -26,30 +27,44 @@ export class userController {
     res.json(user);
   }
 
-  // Función para iniciar sesión de usuario
-  static async LogIn(req, res) {
-    // Se obtienen el correo electrónico y la contraseña del cuerpo de la solicitud
-    let email = req.body.email;
-    let password = req.body.password;
-    console.log("email", email);
-    // Se obtienen el correo electrónico y la contraseña almacenados en la base de datos
-    let email_db = await userModel.getUserEmail(email);
-    let password_db = await userModel.getPassword(email);
-    console.log(password_db)
-    // Se verifica si el correo electrónico y la contraseña coinciden con los de la base de datos
-    if (email === email_db && bcrypt.compareSync(password, password_db)) {
 
-      if (JWT_SECRET === "") {
-        const token = jwt.sign({ email }, JWT_SECRET, {
-          expiresIn: "1h",
-        });
-        res.json({ token });
+  static async LogIn(req, res) {
+    try {
+      // Se obtienen el correo electrónico y la contraseña del cuerpo de la solicitud
+      const { email, password } = req.body;
+
+      // Se obtienen el correo electrónico y la contraseña almacenados en la base de datos
+      const email_db = await userModel.getUserEmail(email);
+      const password_db = await userModel.getPassword(email);
+
+
+      // Se verifica si el correo electrónico y la contraseña coinciden con los de la base de datos
+      if (email === email_db.email && bcrypt.compareSync(password, password_db.password)) {
+        console.log("===================================================")
+        console.log(`El usuario con correo ${email} inició sesión correctamente`)
+        const id = await userModel.getUserID(email)
+
+        // Verificar si existe una clave secreta para JWT
+        if (JWT_SECRET !== "") {
+          // Generar token JWT
+          const token = jwt.sign({ id, email }, JWT_SECRET, {
+            expiresIn: "1h",
+          });
+          // Devolver el token en la respuesta
+          res.json({ token });
+          console.log(`Token de inicio de sesión: ${token}`)
+        } else {
+          // Si no hay una clave secreta para JWT, enviar un mensaje de error
+          res.status(500).json({ error: "No JWT_SECRET provided in ENV" });
+        }
       } else {
-        res.json("Not a JWT_SECRET provided in ENV");
+        // Si las credenciales no coinciden, se devuelve un mensaje de error
+        res.status(401).json({ error: "Invalid credentials" });
       }
-    } else {
-      // Si las credenciales no coinciden, se devuelve un mensaje de error
-      res.json("not authenticated");
+    } catch (error) {
+      // Manejar errores de manera adecuada
+      console.error("Error during login:", error);
+      res.status(500).json({ error: "An error occurred during login" });
     }
   }
 
@@ -59,12 +74,15 @@ export class userController {
     try {
 
       console.log("si entra")
+      console.log(req)
       const hash = await bcrypt.hash(req.body.password, 12);
+
       const {
         nombre,
         apellido,
         username,
         email,
+        avataroculto,
         metodospago,
         numero_tarjeta,
         cvv,
@@ -74,9 +92,11 @@ export class userController {
         pregunta_3,
       } = req.body;
 
+
+
       // Inserta los datos del usuario en la base de datos utilizando pool.query
       await pool.query(
-        "INSERT INTO sofia.users(nombre, apellido, username, email, password, metodospago, numero_tarjeta, cvv, fecha_exp, pregunta_1, pregunta_2, pregunta_3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO sofia.users(nombre, apellido, username, email, password, metodospago, numero_tarjeta, cvv, fecha_exp, pregunta_1, pregunta_2, pregunta_3,avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
           nombre,
           apellido,
@@ -90,6 +110,8 @@ export class userController {
           pregunta_1,
           pregunta_2,
           pregunta_3,
+          avataroculto,
+
         ]
       );
 
@@ -101,4 +123,20 @@ export class userController {
       res.status(500).json("Error interno del servidor");
     }
   }
+
+  static async recibir(req, res) {
+
+    //recibe  el header de autenticacion
+    const Authorization = req.headers['authorization'];
+    console.log('Authorization', Authorization);
+    const decodedToken = jwt.decode(Authorization, { complete: true });
+    const payload = decodedToken.payload;
+    console.log('Payload:', payload);
+    res.json(payload)
+  }
+
+
+
+
+
 }
