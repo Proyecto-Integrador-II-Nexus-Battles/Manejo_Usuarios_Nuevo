@@ -6,10 +6,10 @@ services:
       - "4000:3000"
     environment:
       - APP_PORT= 3000
-      - JWT_SECRET="8998"
+      - JWT_SECRET="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCJvA2NnE7PAKYrEDafXpOOQp0yahOhKXgPpRA5BUtOpTmVOmRhmTSKKQPJ8CXsCu6TM9TOQxKrIpZcyRe44zpq39sQGDDbmUpUXWv3Sq/qDaHY2REaCccXZpZPOx5cGTuKTX9uGxi9SKm8+quYSa1FYHWde47CDfSs88g>
       - HOST="localhost"
-      - DB_HOST="127.0.0.1"
+      - DB_HOST="buey.thenexusbattlesii.online"
       - USER="root"
-      - PSSWRD="sofia"
+      - PSSWRD="root"
       - PORT_MARIA="3310"
-      - DATABASE="sofia"
+      - DATABASE="users"
