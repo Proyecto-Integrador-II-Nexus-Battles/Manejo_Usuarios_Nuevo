@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  manejo-usuario:
+    image: santiadi/manejo-usuario:latest
+    ports:
+      - "4000:3000"
+    environment:
+      - APP_PORT= 3000
+      - JWT_SECRET="8998"
+      - HOST="localhost"
+      - DB_HOST="127.0.0.1"
+      - USER="root"
+      - PSSWRD="sofia"
+      - PORT_MARIA="3310"
+      - DATABASE="sofia"
