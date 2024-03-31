@@ -13,3 +13,4 @@ services:
       - PSSWRD="root"
       - PORT_MARIA="3310"
       - DATABASE="users"
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
