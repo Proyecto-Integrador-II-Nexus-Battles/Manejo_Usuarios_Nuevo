@@ -16,22 +16,17 @@ app.disable("x-powered-by"); // --> Deshabilitar el header x-powered-by
 
 app.use("/usuario", userRouter); // --> Usar la variable de entorno PORT, si no usar el port 3000
 
-
-
 app.use(function (req, res, next) {
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append('Access-Control-Allow-Headers', 'Content-Type');
-  next()
+  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.append("Access-Control-Allow-Headers", "Content-Type");
+  next();
 });
-
 
 app.use((req, res) => {
   res.status(404).json({
     message: "Endpoint not found",
   });
 });
-app.use(cors())
-app.use('/usuario', userRouter)
 
 // ---> https protocol
 const options = {
@@ -40,3 +35,4 @@ const options = {
 };
 http.createServer(app).listen(80);
 https.createServer(options, app).listen(APP_PORT);
+console.log(`Server running on port ${APP_PORT}`);
