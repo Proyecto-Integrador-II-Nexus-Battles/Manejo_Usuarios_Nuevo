@@ -10,7 +10,7 @@ export const userRouter = Router()
 
 userRouter.get('/admin', userController.getUsername);
 userRouter.get('/buscar_usuario', userController.buscarUsername);
-userRouter.get('/:username', userController.getUserInfoController);
+userRouter.get('/user/:username', userController.getUserInfoController);
 
 //ruta para el envio de informacion para el login
 userRouter.post('/logIn', userController.LogIn);
