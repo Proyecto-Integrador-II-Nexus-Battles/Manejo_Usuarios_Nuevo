@@ -1,16 +1,15 @@
-version: "3.8"
 services:
   manejo-usuario:
     image: santiadi/manejo-usuario:latest
     ports:
       - "4000:3000"
     environment:
-      - APP_PORT= 3000
-      - JWT_SECRET="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCJvA2NnE7PAKYrEDafXpOOQp0yahOhKXgPpRA5BUtOpTmVOmRhmTSKKQPJ8CXsCu6TM9TOQxKrIpZcyRe44zpq39sQGDDbmUpUXWv3Sq/qDaHY2REaCccXZpZPOx5cGTuKTX9uGxi9SKm8+quYSa1FYHWde47CDfSs88g>
-      - HOST="localhost"
-      - DB_HOST="buey.thenexusbattlesii.online"
-      - USER="root"
-      - PSSWRD="root"
-      - PORT_MARIA="3310"
-      - DATABASE="users"
+      - APP_PORT=3000
+      - JWT_SECRET=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCJvA2NnE7PAKYrEDafXpOOQp0yahOhKXgPpRA5BUtOpTmVOmRhmTSKKQPJ8CXsCu6TM9TOQxKrIpZcyRe44zpq39sQGDDbmUpUXWv3Sq/qDaHY2REaCccXZpZPOx5cGTuKTX9uGxi9SKm8+quYSa1FYHWde47CDfSs88gs>
+      - HOST=localhost
+      - DB_HOST=buey.thenexusbattlesii.online
+      - USER=root
+      - PSSWRD=root
+      - PORT_MARIA=3310
+      - DATABASE=users
       - NODE_TLS_REJECT_UNAUTHORIZED=0

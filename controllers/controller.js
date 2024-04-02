@@ -96,7 +96,7 @@ export class userController {
 
       // Inserta los datos del usuario en la base de datos utilizando pool.query
       await pool.query(
-        "INSERT INTO sofia.users(nombre, apellido, username, email, password, metodospago, numero_tarjeta, cvv, fecha_exp, pregunta_1, pregunta_2, pregunta_3,avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO users (nombre, apellido, username, email, password, metodospago, numero_tarjeta, cvv, fecha_exp, pregunta_1, pregunta_2, pregunta_3,avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
           nombre,
           apellido,
