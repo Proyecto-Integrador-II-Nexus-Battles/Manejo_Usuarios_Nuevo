@@ -8,6 +8,7 @@ import { userController } from "../controllers/controller.js";
 export const userRouter = Router();
 
 userRouter.get("/admin", userController.getUsername);
+userRouter.get("/IDusuario", userController.getIDUsername);
 userRouter.get("/buscar_usuario", userController.buscarUsername);
 userRouter.get("/user/:username", userController.getUserInfoController);
 

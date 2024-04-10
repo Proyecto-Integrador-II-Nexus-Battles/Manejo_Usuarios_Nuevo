@@ -11,10 +11,17 @@ const upload = multer({ dest: "uploads/" });
 export class userController {
   // --> TODOS LOS ARCHIVOS FUNCIONAM COMO UNA CAJA FUERTE
   static async getUsername(req, res) {
-    const id = req.body.IdUsuario
-    console.log(id)
     const usernames = await userModel.getUsers();
     res.json(usernames);
+  }
+
+
+  static async getIDUsername(req, res) {
+
+    const id = req.body.IdUsuario
+    console.log(id)
+    res.json(id)
+
   }
 
   static async buscarUsername(req, res) {
