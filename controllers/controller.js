@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config.js";
 import { pool } from "../models/db.js";
-import multer from 'multer';
-const upload = multer({ dest: 'uploads/' });
+import multer from "multer";
+const upload = multer({ dest: "uploads/" });
 
 // En esta clase se encarga de controlar los datos y consultas (get-post) y devolverlas en formato JSON
 // Hacia la vista que las requiera
@@ -27,7 +27,6 @@ export class userController {
     res.json(user);
   }
 
-
   static async LogIn(req, res) {
     try {
       // Se obtienen el correo electrónico y la contraseña del cuerpo de la solicitud
@@ -37,12 +36,16 @@ export class userController {
       const email_db = await userModel.getUserEmail(email);
       const password_db = await userModel.getPassword(email);
 
-
       // Se verifica si el correo electrónico y la contraseña coinciden con los de la base de datos
-      if (email === email_db.email && bcrypt.compareSync(password, password_db.password)) {
-        console.log("===================================================")
-        console.log(`El usuario con correo ${email} inició sesión correctamente`)
-        const id = await userModel.getUserID(email)
+      if (
+        email === email_db.email &&
+        bcrypt.compareSync(password, password_db.password)
+      ) {
+        console.log("===================================================");
+        console.log(
+          `El usuario con correo ${email} inició sesión correctamente`
+        );
+        const id = await userModel.getUserID(email);
 
         // Verificar si existe una clave secreta para JWT
         if (JWT_SECRET !== "") {
@@ -52,7 +55,7 @@ export class userController {
           });
           // Devolver el token en la respuesta
           res.json({ token });
-          console.log(`Token de inicio de sesión: ${token}`)
+          console.log(`Token de inicio de sesión: ${token}`);
         } else {
           // Si no hay una clave secreta para JWT, enviar un mensaje de error
           res.status(500).json({ error: "No JWT_SECRET provided in ENV" });
@@ -68,13 +71,10 @@ export class userController {
     }
   }
 
-
-
   static async register(req, res) {
     try {
-
-      console.log("si entra")
-      console.log(req)
+      console.log("si entra");
+      console.log(req);
       const hash = await bcrypt.hash(req.body.password, 12);
 
       const {
@@ -91,8 +91,6 @@ export class userController {
         pregunta_2,
         pregunta_3,
       } = req.body;
-
-
 
       // Inserta los datos del usuario en la base de datos utilizando pool.query
       await pool.query(
@@ -111,7 +109,6 @@ export class userController {
           pregunta_2,
           pregunta_3,
           avataroculto,
-
         ]
       );
 
@@ -125,18 +122,12 @@ export class userController {
   }
 
   static async recibir(req, res) {
-
     //recibe  el header de autenticacion
-    const Authorization = req.headers['authorization'];
-    console.log('Authorization', Authorization);
+    const Authorization = req.headers["authorization"];
+    console.log("Authorization", Authorization);
     const decodedToken = jwt.decode(Authorization, { complete: true });
     const payload = decodedToken.payload;
-    console.log('Payload:', payload);
-    res.json(payload)
+    console.log("Payload:", payload);
+    res.json(payload);
   }
-
-
-
-
-
 }
