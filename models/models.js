@@ -17,6 +17,11 @@ export class userModel {
         return userResult[0];
     }
 
+    static async getUserMiCuenta({ IdUsuario }) {
+        const userInfo = await pool.query("SELECT nombre, apellido, username, avatar FROM users WHERE id = ?", [IdUsuario]);
+        return userInfo[0];
+    }
+
     static async getUserEmail(email) {
 
         let email_db = await pool.query("SELECT email FROM users WHERE email=?", [email]);

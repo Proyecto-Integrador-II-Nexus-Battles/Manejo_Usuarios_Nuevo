@@ -29,6 +29,13 @@ export class userController {
     res.json(user);
   }
 
+  static async miCuentaController(req, res) {
+    const { IdUsuario } = req.body
+    console.log(IdUsuario)
+    const userinfo = await userModel.getUserMiCuenta({ IdUsuario });
+    res.json(userinfo);
+}
+
   static async LogIn(req, res) {
     try {
       // Se obtienen el correo electrónico y la contraseña del cuerpo de la solicitud
@@ -133,3 +140,4 @@ export class userController {
     res.json(payload);
   }
 }
+
