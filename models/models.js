@@ -18,7 +18,7 @@ export class userModel {
     }
 
     static async getUserMiCuenta({ IdUsuario }) {
-        const userInfo = await pool.query("SELECT nombre, apellido, username, password FROM users WHERE id = ?", [IdUsuario]);
+        const userInfo = await pool.query("SELECT nombre, apellido, username, avatar FROM users WHERE id = ?", [IdUsuario]);
         return userInfo[0];
     }
 
