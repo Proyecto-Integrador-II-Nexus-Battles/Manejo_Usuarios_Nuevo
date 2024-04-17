@@ -22,6 +22,33 @@ export class userModel {
         return userInfo[0];
     }
 
+    static async PatchMiCuenta({IdUsuario, new_username, new_avatar, hash}) {
+        try {
+            // Ejecutar la instrucción SQL para actualizar los datos
+            const result = await pool.query(
+                `UPDATE users 
+                 SET 
+                    username = COALESCE(NULLIF(?, ''), username), 
+                    avatar = COALESCE(NULLIF(?, ''), avatar), 
+                    password = COALESCE(NULLIF(?, ''), password) 
+                 WHERE 
+                    id = ?`,
+                [new_username, new_avatar, hash, IdUsuario]
+            );
+    
+            // Verificar si se realizaron cambios
+            if (result.affectedRows > 0) {
+                return { success: true, message: "Se actualizaron los datos de la cuenta correctamente." };
+            } else {
+                return { success: false, message: "No se encontró ningún usuario con el ID proporcionado." };
+            }
+        } catch (error) {
+            console.error("Error al actualizar los datos de la cuenta:", error);
+            return { success: false, message: "Ocurrió un error al actualizar los datos de la cuenta. Por favor, inténtalo de nuevo más tarde." };
+        }
+    }
+
+
     static async getUserEmail(email) {
 
         let email_db = await pool.query("SELECT email FROM users WHERE email=?", [email]);
