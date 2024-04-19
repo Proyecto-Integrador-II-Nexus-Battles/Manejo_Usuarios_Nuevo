@@ -36,6 +36,20 @@ export class userController {
     res.json(userinfo);
 }
 
+static async miCuentaPatchController(req, res) {
+  let hash = ""; 
+  
+  if (req.body.new_password) {
+    hash = await bcrypt.hash(req.body.new_password, 12);
+  }
+  
+  const { IdUsuario, new_username, new_avatar } = req.body;
+  console.log(IdUsuario, new_username, new_avatar, hash);
+  const userinfo = await userModel.PatchMiCuenta({ IdUsuario, new_username, new_avatar, hash });
+  res.json(userinfo);
+}
+
+
   static async LogIn(req, res) {
     try {
       // Se obtienen el correo electrónico y la contraseña del cuerpo de la solicitud
