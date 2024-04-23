@@ -9,7 +9,9 @@ export class EmailController {
   async generateURL(req, res) {
     try {
       const { email, nombre, apellido } = req.body;
-      if (this.emailModel.rectifyID(email)) {
+      const rectify = await this.emailModel.rectifyID(email);
+      console.log(rectify);
+      if (rectify) {
         return res.status(400).json({ error: "ID is repeated" });
       }
       const token = await this.emailModel.generateToken(email, req.body);
