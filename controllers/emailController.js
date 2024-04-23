@@ -95,6 +95,7 @@ export class EmailController {
             if (response.status === 200) {
               return res.status(200).json({
                 message: "Questions were answered right, code was sent",
+                code: code,
               });
             }
           })
