@@ -13,15 +13,26 @@ export class EmailController {
         return res.status(400).json({ error: "ID is repeated" });
       }
       const token = await this.emailModel.generateToken(email, req.body);
-      const url = `${HOST}:${PORT}/usuario/verify?token=${token}`;
-      axios.post(`${HOST}:${PORT}/correo/send/confirmacion`, {
-        email: email,
-        subject: "Confirmar creación de tu cuenta con The Nexus Battles II.",
-        message: "",
-        username: `${nombre} ${apellido}`,
-        url: url,
-      });
-      res.json({ message: "El token se ha enviado al correo" });
+      const url = `${HOST}:${PORT}/usuario/token/verify?token=${token}`;
+      axios
+        .post(`${HOST}:${PORT}/correo/send/confirmacion`, {
+          email: email,
+          subject: "Confirmar creación de tu cuenta con The Nexus Battles II.",
+          message: "",
+          username: `${nombre} ${apellido}`,
+          url: url,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            return res.status(200).json({ message: "Token was sent to email" });
+          }
+        })
+        .catch((error) => {
+          console.error("Error sending token:", error);
+          return res
+            .status(500)
+            .json({ error: "An error occurred while sending the token" });
+        });
     } catch (error) {
       console.error("Error generating token:", error);
       res
