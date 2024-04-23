@@ -89,10 +89,6 @@ export class EmailModel {
         (user) => user.email === email && user.code === Number(code)
       );
       if (user) {
-        const gottenUser = user;
-        this.usersRecuperar = this.usersRecuperar.filter(
-          (user) => user.email !== email
-        );
         return gottenUser;
       } else {
         return null;
@@ -101,6 +97,12 @@ export class EmailModel {
       console.error(error);
       return { error: error.message };
     }
+  }
+
+  deleteCode(email) {
+    this.usersRecuperar = this.usersRecuperar.filter(
+      (user) => user.email !== email
+    );
   }
 
   cronDeleteByTime() {
