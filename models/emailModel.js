@@ -37,9 +37,18 @@ export class EmailModel {
     }
   }
 
-  rectifyID(email) {
+  async rectifyID(email) {
     try {
       const user = this.users.find((user) => user.email === email);
+      if (!user) {
+        const results = await pool.query(
+          "SELECT * FROM users WHERE email = ?",
+          [email]
+        );
+        if (results.length > 0) {
+          return true;
+        }
+      }
       return !!user;
     } catch (error) {
       console.error(error);
