@@ -118,6 +118,7 @@ export class EmailModel {
           })
           .then((response) => {
             if (response.status === 200) {
+              this.deleteCode(email);
               return 1;
             }
           })
