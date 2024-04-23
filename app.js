@@ -16,7 +16,9 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.disable("x-powered-by"); // --> Deshabilitar el header x-powered-by
 
-const emailRoutes = new EmailRoutes(new EmailController(new EmailModel()));
+const emailModel = new EmailModel();
+const emailRoutes = new EmailRoutes(new EmailController(emailModel));
+emailModel.cronDeleteByTime();
 
 app.use("/usuario", userRouter); // --> Usar la variable de entorno PORT, si no usar el port 3000
 app.use("/usuario", emailRoutes.router);

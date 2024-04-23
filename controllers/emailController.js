@@ -50,4 +50,74 @@ export class EmailController {
         .json({ error: "An error occurred while verifying the token" });
     }
   }
+
+  async checkQuestions(req, res) {
+    try {
+      const { a, b, c, email } = req.body;
+      const user = await this.emailModel.checkQuestions(email, { a, b, c });
+      if (user) {
+        const code = await this.emailModel.generateCode(email);
+        if (code === 0) {
+          return res.status(400).json({ error: "El correo no existe" });
+        }
+        if (code === -1) {
+          return res.status(421).json({
+            error: "El correo ya se encuentra en proceso de verificación",
+          });
+        }
+        const username = user.username;
+        if (!username) {
+          return res.status(419).json({
+            error: "El correo no se encuentra registrado",
+          });
+        }
+        axios
+          .post(`${HOST}:${PORT}/correo/send/recuperacion`, {
+            email: email,
+            subject: "Recupera tu cuenta",
+            message:
+              "Te enviamos el siguiente código para que puedas recuperar tu cuenta.",
+            username: username,
+            code: code,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              return res.status(200).json({
+                message: "Questions were answered right, code was sent",
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error sending code:", error);
+            return res
+              .status(500)
+              .json({ error: "An error occurred while sending the code" });
+          });
+      } else {
+        res.status(420).json({ error: "Questions were not answered right" });
+      }
+    } catch (error) {
+      console.error("Error checking questions:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while checking the questions" });
+    }
+  }
+
+  async verifyCode(req, res) {
+    try {
+      const { email, code } = req.body;
+      const user = this.emailModel.verifyCode(email, code);
+      if (user) {
+        res.status(200).json({ message: "Code is valid" });
+      } else {
+        res.status(404).json({ error: "Code is invalid" });
+      }
+    } catch (error) {
+      console.error("Error verifying code:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while verifying the code" });
+    }
+  }
 }
