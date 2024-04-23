@@ -10,7 +10,6 @@ export class EmailController {
     try {
       const { email, nombre, apellido } = req.body;
       const rectify = await this.emailModel.rectifyID(email);
-      console.log(rectify);
       if (rectify) {
         return res.status(400).json({ error: "ID is repeated" });
       }
@@ -52,7 +51,7 @@ export class EmailController {
       const user = this.emailModel.verifyToken(token);
       if (user) {
         axios.post("/usuario/register", user.body);
-        res.json({ message: "Token is valid" });
+        res.status(200).json({ message: "Token is valid" });
       } else {
         res.status(401).json({ error: "Token is invalid" });
       }
