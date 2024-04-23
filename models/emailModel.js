@@ -39,17 +39,18 @@ export class EmailModel {
 
   async rectifyID(email) {
     try {
-      console.log(this.users);
       const user = this.users.find((user) => user.email === email);
-      if (!user) {
+      if (user === undefined) {
         const results = await pool.query(
           "SELECT * FROM users WHERE email = ?",
           [email]
         );
         if (results.length > 0) {
+          console.log("ID is repeated");
           return true;
         }
       }
+      console.log("ID is not repeated");
       return !!user;
     } catch (error) {
       console.error(error);
