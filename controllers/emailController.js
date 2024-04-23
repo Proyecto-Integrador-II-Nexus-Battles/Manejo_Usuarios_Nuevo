@@ -131,4 +131,25 @@ export class EmailController {
         .json({ error: "An error occurred while verifying the code" });
     }
   }
+
+  async changePassword(req, res) {
+    try {
+      const { email, password, code } = req.body;
+      const result = await this.emailModel.newPassword(email, password, code);
+      if (result === 1) {
+        res.json({ message: "Password was changed" });
+      } else if (result === 0) {
+        res.status(404).json({ error: "Email is not registered" });
+      } else {
+        res
+          .status(500)
+          .json({ error: "An error occurred while changing the password" });
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while changing the password" });
+    }
+  }
 }

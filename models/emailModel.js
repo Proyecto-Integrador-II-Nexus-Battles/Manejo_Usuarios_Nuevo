@@ -1,5 +1,6 @@
 import { v4 } from "uuid";
 import { pool } from "./db.js";
+import axios from "axios";
 
 export class EmailModel {
   constructor() {
@@ -92,6 +93,40 @@ export class EmailModel {
         return gottenUser;
       } else {
         return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return { error: error.message };
+    }
+  }
+
+  async newPassword(email, password, code) {
+    try {
+      const verify = this.verifyCode(email, code);
+      if (verify) {
+        const results = await pool.query(
+          "SELECT id FROM users WHERE email = ?",
+          [email]
+        );
+        if (results.length === 0) {
+          return 0;
+        }
+        axios
+          .patch("/usuario/newData", {
+            IdUsuario: results[0].id,
+            new_password: password,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              return 1;
+            }
+          })
+          .catch((error) => {
+            console.error("Error sending new password:", error);
+            return -1;
+          });
+      } else {
+        return -1;
       }
     } catch (error) {
       console.error(error);

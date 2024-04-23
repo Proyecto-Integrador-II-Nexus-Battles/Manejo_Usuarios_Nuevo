@@ -24,5 +24,9 @@ export default class EmailRoutes {
       "/code/verify",
       this.emailController.verifyCode.bind(this.emailController)
     );
+    this.router.post(
+      "/code/password",
+      this.emailController.changePassword.bind(this.emailController)
+    );
   }
 }
