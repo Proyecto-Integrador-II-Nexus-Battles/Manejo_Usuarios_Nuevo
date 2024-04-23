@@ -76,6 +76,7 @@ export class EmailModel {
       }
       const code = Math.floor(1000 + Math.random() * 9000);
       this.usersRecuperar.push({ email: email, code: code, time: Date.now() });
+      console.log(this.usersRecuperar);
       return code;
     } catch (error) {
       return 0;
@@ -85,10 +86,14 @@ export class EmailModel {
   verifyCode(email, code) {
     try {
       const user = this.usersRecuperar.find(
-        (user) => user.email === email && user.code === code
+        (user) => user.email === email && user.code === Number(code)
       );
       if (user) {
-        return user;
+        const gottenUser = user;
+        this.usersRecuperar = this.usersRecuperar.filter(
+          (user) => user.email !== email
+        );
+        return gottenUser;
       } else {
         return null;
       }
