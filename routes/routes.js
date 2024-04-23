@@ -10,8 +10,9 @@ export const userRouter = Router();
 userRouter.get("/admin", userController.getUsername);
 userRouter.get("/buscar_usuario", userController.buscarUsername);
 userRouter.get("/user/:username", userController.getUserInfoController);
-userRouter.post('/cuenta', userController.miCuentaController);
-userRouter.patch('/newData', userController.miCuentaPatchController);
+userRouter.post("/cuenta", userController.miCuentaController);
+userRouter.post("/cuenta/id", userController.miCuentaController);
+userRouter.patch("/newData", userController.miCuentaPatchController);
 //ruta para el envio de informacion para el login
 userRouter.post("/logIn", userController.LogIn);
 //ruta para el envio de informacion para el registro

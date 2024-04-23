@@ -11,8 +11,8 @@ const upload = multer({ dest: "uploads/" });
 export class userController {
   // --> TODOS LOS ARCHIVOS FUNCIONAM COMO UNA CAJA FUERTE
   static async getUsername(req, res) {
-    const id = req.body.IdUsuario
-    console.log(id)
+    const id = req.body.IdUsuario;
+    console.log(id);
     const usernames = await userModel.getUsers();
     res.json(usernames);
   }
@@ -30,25 +30,29 @@ export class userController {
   }
 
   static async miCuentaController(req, res) {
-    const { IdUsuario } = req.body
-    console.log(IdUsuario)
+    const { IdUsuario } = req.body;
+    console.log(IdUsuario);
     const userinfo = await userModel.getUserMiCuenta({ IdUsuario });
     res.json(userinfo);
-}
-
-static async miCuentaPatchController(req, res) {
-  let hash = ""; 
-  
-  if (req.body.new_password) {
-    hash = await bcrypt.hash(req.body.new_password, 12);
   }
-  
-  const { IdUsuario, new_username, new_avatar } = req.body;
-  console.log(IdUsuario, new_username, new_avatar, hash);
-  const userinfo = await userModel.PatchMiCuenta({ IdUsuario, new_username, new_avatar, hash });
-  res.json(userinfo);
-}
 
+  static async miCuentaPatchController(req, res) {
+    let hash = "";
+
+    if (req.body.new_password) {
+      hash = await bcrypt.hash(req.body.new_password, 12);
+    }
+
+    const { IdUsuario, new_username, new_avatar } = req.body;
+    console.log(IdUsuario, new_username, new_avatar, hash);
+    const userinfo = await userModel.PatchMiCuenta({
+      IdUsuario,
+      new_username,
+      new_avatar,
+      hash,
+    });
+    res.json(userinfo);
+  }
 
   static async LogIn(req, res) {
     try {
@@ -154,4 +158,3 @@ static async miCuentaPatchController(req, res) {
     res.json(payload);
   }
 }
-
