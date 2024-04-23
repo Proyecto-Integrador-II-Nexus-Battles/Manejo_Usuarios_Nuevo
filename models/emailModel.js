@@ -39,6 +39,7 @@ export class EmailModel {
 
   async rectifyID(email) {
     try {
+      console.log(this.users);
       const user = this.users.find((user) => user.email === email);
       if (!user) {
         const results = await pool.query(
