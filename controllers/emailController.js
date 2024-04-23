@@ -82,7 +82,10 @@ export class EmailController {
             error: "El correo no se encuentra registrado",
           });
         }
-        axios
+        return res.status(200).json({
+          message: "Questions were answered right, code was sent",
+        });
+        /* axios
           .post(`${HOST}:${PORT}/correo/send/recuperacion`, {
             email: email,
             subject: "Recupera tu cuenta",
@@ -103,7 +106,7 @@ export class EmailController {
             return res
               .status(500)
               .json({ error: "An error occurred while sending the code" });
-          });
+          }); */
       } else {
         res.status(420).json({ error: "Questions were not answered right" });
       }

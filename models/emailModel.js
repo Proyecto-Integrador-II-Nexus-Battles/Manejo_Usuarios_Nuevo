@@ -126,12 +126,13 @@ export class EmailModel {
             console.error("Error sending new password:", error);
             return -1;
           });
+        return 1;
       } else {
         return -1;
       }
     } catch (error) {
       console.error(error);
-      return { error: error.message };
+      return -2;
     }
   }
 
