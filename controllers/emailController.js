@@ -51,7 +51,9 @@ export class EmailController {
       const user = this.emailModel.verifyToken(token);
       if (user) {
         axios.post("/usuario/register", user.body);
-        res.status(200).json({ message: "Token is valid" });
+        return res.redirect(
+          `https://thenexusbattlesii.online/usuario/confirmar`
+        );
       } else {
         res.status(401).json({ error: "Token is invalid" });
       }
