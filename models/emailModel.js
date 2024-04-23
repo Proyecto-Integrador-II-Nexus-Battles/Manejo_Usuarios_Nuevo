@@ -90,7 +90,7 @@ export class EmailModel {
         (user) => user.email === email && user.code === Number(code)
       );
       if (user) {
-        return gottenUser;
+        return user;
       } else {
         return null;
       }
