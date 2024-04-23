@@ -51,7 +51,7 @@ export class EmailModel {
         }
       }
       console.log("ID is not repeated");
-      return !!user;
+      return false;
     } catch (error) {
       console.error(error);
       return false;
