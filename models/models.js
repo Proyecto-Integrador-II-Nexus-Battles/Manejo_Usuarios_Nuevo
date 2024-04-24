@@ -22,21 +22,20 @@ export class userModel {
         return userInfo[0];
     }
 
-    static async PatchMiCuenta({IdUsuario, new_username, new_avatar, hash}) {
+    static async PatchMiCuenta({IdUsuario, new_username, hash}) {
         try {
-            // Ejecutar la instrucción SQL para actualizar los datos
+
             const result = await pool.query(
                 `UPDATE users 
                  SET 
                     username = COALESCE(NULLIF(?, ''), username), 
-                    avatar = COALESCE(NULLIF(?, ''), avatar), 
                     password = COALESCE(NULLIF(?, ''), password) 
                  WHERE 
                     id = ?`,
-                [new_username, new_avatar, hash, IdUsuario]
+                [new_username, hash, IdUsuario]
             );
     
-            // Verificar si se realizaron cambios
+
             if (result.affectedRows > 0) {
                 return { success: true, message: "Se actualizaron los datos de la cuenta correctamente." };
             } else {

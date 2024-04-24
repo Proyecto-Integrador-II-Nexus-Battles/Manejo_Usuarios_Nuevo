@@ -43,16 +43,12 @@ export class userController {
       hash = await bcrypt.hash(req.body.new_password, 12);
     }
 
-    const { IdUsuario, new_username, new_avatar } = req.body;
-    console.log(IdUsuario, new_username, new_avatar, hash);
-    const userinfo = await userModel.PatchMiCuenta({
-      IdUsuario,
-      new_username,
-      new_avatar,
-      hash,
-    });
+    const { IdUsuario, new_username } = req.body;
+    console.log(IdUsuario, new_username, hash);
+    const userinfo = await userModel.PatchMiCuenta({ IdUsuario, new_username, hash });
     res.json(userinfo);
   }
+
 
   static async LogIn(req, res) {
     try {
