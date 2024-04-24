@@ -10,6 +10,7 @@ export const userRouter = Router();
 userRouter.get("/admin", userController.getUsername);
 userRouter.get("/buscar_usuario", userController.buscarUsername);
 userRouter.get("/user/:username", userController.getUserInfoController);
+userRouter.get("/user/id/:id", userController.getUserInfoControllerByID);
 userRouter.post("/cuenta", userController.miCuentaController);
 userRouter.post("/cuenta/id", userController.miCuentaController);
 userRouter.patch("/newData", userController.miCuentaPatchController);

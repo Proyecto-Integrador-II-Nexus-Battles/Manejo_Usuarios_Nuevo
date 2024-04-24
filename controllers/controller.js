@@ -29,6 +29,12 @@ export class userController {
     res.json(user);
   }
 
+  static async getUserInfoControllerByID(req, res) {
+    const id = req.params.id;
+    const user = await userModel.getUserInfoByID(id);
+    res.json(user);
+  }
+
   static async miCuentaController(req, res) {
     const { IdUsuario } = req.body;
     console.log(IdUsuario);
@@ -45,10 +51,13 @@ export class userController {
 
     const { IdUsuario, new_username } = req.body;
     console.log(IdUsuario, new_username, hash);
-    const userinfo = await userModel.PatchMiCuenta({ IdUsuario, new_username, hash });
+    const userinfo = await userModel.PatchMiCuenta({
+      IdUsuario,
+      new_username,
+      hash,
+    });
     res.json(userinfo);
   }
-
 
   static async LogIn(req, res) {
     try {
