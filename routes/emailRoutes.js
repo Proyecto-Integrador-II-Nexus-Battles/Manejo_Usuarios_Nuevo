@@ -13,8 +13,20 @@ export default class EmailRoutes {
       this.emailController.generateURL.bind(this.emailController)
     );
     this.router.get(
-      "/verify",
+      "/token/verify",
       this.emailController.verifyToken.bind(this.emailController)
+    );
+    this.router.post(
+      "/check/questions",
+      this.emailController.checkQuestions.bind(this.emailController)
+    );
+    this.router.post(
+      "/code/verify",
+      this.emailController.verifyCode.bind(this.emailController)
+    );
+    this.router.post(
+      "/code/password",
+      this.emailController.changePassword.bind(this.emailController)
     );
   }
 }
