@@ -17,6 +17,15 @@ export class userController {
     res.json(usernames);
   }
 
+
+  static async getIDUsername(req, res) {
+
+    const id = req.body.IdUsuario
+    console.log(id)
+    res.json(id)
+
+  }
+
   static async buscarUsername(req, res) {
     const query = req.query.q;
     const resultados = await userModel.searchUsers(query);
